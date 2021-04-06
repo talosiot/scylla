@@ -26,13 +26,16 @@ jobs:
       run: make keys
     - name: Install the library
       run: |
-        mkdir -p ~/.ssh
-        eval `ssh-agent`
-        ssh-add ${{ env.deploy_keys_folder }}/*.key && ssh -o StrictHostKeyChecking=no -T git@github.com || true
-        #ssh into github with no stricthostkeychecking adds github.com to the known hosts
-        #but...
-        #ssh into github fails with an error code because github kicks you out
-        # so I need `|| true` to not fail the run
+        if ls ${{ env.deploy_keys_folder }}/*.key 1> /dev/null 2>&1;
+        then
+            mkdir -p ~/.ssh
+            eval `ssh-agent`
+            ssh-add ${{ env.deploy_keys_folder }}/*.key
+            ssh -o StrictHostKeyChecking=no -T git@github.com || true
+            #ssh into github with no stricthostkeychecking adds github.com to the known hosts
+            #but...
+            #ssh into github fails with an error code because github kicks you out
+        fi
         pip install nbdev jupyter
         pip install -e .
     - name: Read all notebooks
