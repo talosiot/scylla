@@ -8,6 +8,8 @@ index = {"check_if_port_is_bound": "init.ipynb",
          "generate_port_pairings": "init.ipynb",
          "lookup_host": "init.ipynb",
          "lookup_host_port": "init.ipynb",
+         "NamedPorts": "init.ipynb",
+         "set_port_name": "init.ipynb",
          "block_for_startup": "init.ipynb",
          "run_container": "init.ipynb"}
 
