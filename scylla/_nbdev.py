@@ -12,9 +12,12 @@ index = {"check_if_port_is_bound": "init.ipynb",
          "NamedPorts": "init.ipynb",
          "set_port_name": "init.ipynb",
          "block_for_startup": "init.ipynb",
-         "run_container": "init.ipynb"}
+         "block_for_command": "init.ipynb",
+         "run_container": "init.ipynb",
+         "start": "redis.ipynb"}
 
-modules = ["__init__.py"]
+modules = ["__init__.py",
+           "redis.py"]
 
 doc_url = "https://talosiot.github.io/scylla/"
 

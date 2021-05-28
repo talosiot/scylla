@@ -2,7 +2,7 @@
 
 __all__ = ['check_if_port_is_bound', 'get_random_port_numbers', 'logger', 'generate_port_pairings', 'lookup_host',
            'lookup_host_port', 'lookup_socket_name', 'NamedPorts', 'set_port_name', 'block_for_startup',
-           'run_container']
+           'block_for_command', 'run_container']
 
 # Cell
 import socket
@@ -116,6 +116,14 @@ def block_for_startup(container, container_port):
     logger.debug("Waiting for avilability of {host}".format(host=host))
     resp = requests.get("http://{HostIp}:{HostPort}".format(**host))
     return resp
+
+@retry(wait_fixed=1000, stop_max_attempt_number=30)
+def block_for_command(container, cmd, exit_code=0, **kwargs):
+    '''
+    Keep trying the command in the docker container until you get the desired exit code
+    '''
+    resp = container.exec_run(cmd, **kwargs)
+    assert resp.exit_code==exit_code
 
 def run_container(image, container_name=None,
                   ports=None, min_port=6000, max_port=10000,
